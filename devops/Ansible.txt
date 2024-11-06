@@ -1,0 +1,169 @@
+################################################## SESSION 15 ################################################################
+
+Legacy
+------
+old technoogy
+as part of our team, we are managing our legacy systems as well...
+1.monitoring CPU and memory an sending alert emails by using promithes and graffana
+2.backup scripts and scheduled them which is misssed in 1or2 systems
+
+Congiguration management
+==========================
+server ---> plain server with out anything installed
+
+
+install app runtime and few packages
+creating users and folder
+downloading code
+installing dependencies
+creating systemctl services
+copying config files
+
+plain --> ready to serve the application/end user --> manual --> shell script
+
+1. not idempotent --> write custom code to make it idempotent
+2. error handling --> we need to write code to check the errors
+3. Homogenous --> only works specific distribute
+4. not scalable when too many servers
+5. syntax is not easy to understand
+
+CM tools --> puppet, chef, rundeck, ansible, etc.
+
+push vs pull
+-------------
+
+Courier Delhi --> Hyd
+
+HYD DTDC
+
+1. We go to HYD DTDC daily and check for courier --> pull
+2. We sit in home, whenever courier comes to HYD DTDC, they deliver to us --> push
+
+pull
+---------
+1. causing more traffic on roads --> more traffic in internet
+2. unnecessary resources waste time, fuel, etc. --> bandwidth, power, device resources, etc.
+3. cost
+
+push
+--------
+save everything, ssh protocol
+
+recently we migrated normal servers to ansible managed servers
+
+54.210.150.96 --> /tmp/hello.txt
+
+1. login to server
+2. move to /tmp dir
+3. create file
+4. exit
+
+earlier ansible was only on push based, but recently it implemented pull based also...
+
+In server install ansible
+---------------------------
+sudo dnf install ansible -y
+
+Ansible installed in a server means it is ansible server and remaning are nodes/box
+
+######################### SESSION 16 ####################################################
+FROM daws-81 notes.
+
+############################# SESSION 17 ######################################################
+In inventory file we can wirte ungrouped servers, grouped servers, all servers in selected groups,variables and all variables like username,password.
+
+192.212.12.1
+192.212.12.2
+192.212.12.3
+
+[web]
+192.212.12.5
+
+[backend]
+192.212.12.5
+192.212.12.7
+192.212.12.9
+
+[mysql]
+192.212.12.10
+192.212.12.11
+192.212.12.12
+
+anisble server which is itself we can call as local
+-------------------------------------------------
+[local]
+localhost
+
+NOTE:- wile using localhost in .yml file we have to give as connection: local #for local hosts
+example:in yaml file
+--------------------
+hosts: local
+connection: local
+==========================================================================================
+
+[web:vars]
+DURATION="10HRS"
+TRAINER="SIVA KUMAR"
+
+all servers in selected groups
+===========================
+[server:childern]
+web
+backend
+
+all variables:the below command used to login into all servers with out username and password
+===============
+[all:vars]
+ansible_user=ec2-user
+ansible_password=DevOps321
+
+the below command used to login into only web group servers with out username and password
+========================================
+[web:vars]
+
+
+To list ungrouped hostnames in server below command
+-----------------------------------------------------
+ansible -i inventory.ini ungrouped --list-hosts
+
+To list grouped hostnames in server below command
+--------------------------------------------------
+ansible -i inventory.ini web --list-hosts
+
+ansible -i inventory.ini backend --list-hosts
+
+To list selected grouped hostnames in server below command to achive this we have to configure in inventory.ini file like this--> 
+[server:childern]
+web
+backend
+--------------------------------------------------
+ansible -i inventory.ini servers --list-hosts
+
+To list all hostnames in server below command
+--------------------------------------------------
+ansible -i inventory.ini all --list-hosts
+
+  
+1:02hr===============
+NOTE: if packages are not present then we have to gather the facts and install the packages by giving commands
+
+############################################################## SESSION 18 ############################################################################
+variables keyword is when
+loops keyword is loop  -->google it. functions in ansible using filters to manipulate data.
+functions we can call as filters in ansible
+
+For python buildtool is pip -->version know pip3.9
+
+if required few library have to install related to it pakcages.
+
+pip3.9 install netaddr
+
+command vs shell  -->interview
+-----------------
+command --> it is used to execute just commands, it will not get the shell environment
+shell --> it is used to execute complex like pipes |, redirections >,<, etc. it gets the shell environment.
+
+command is secure than shell, prefer use command if works.
+
+
+google it -->ansible ec2 module

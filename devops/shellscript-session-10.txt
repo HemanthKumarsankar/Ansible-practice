@@ -1,0 +1,1764 @@
+#####################SESSION -10##################################
+
+my local path -cd /c/Users/lenovo/devops/repos
+
+git clone --verbose https://github.com/HemanthKumarsankar/git-practice.git/
+
+
+
+Shell Scripting
+----------------
+fatal: unable to access 'https://github.com/HemanthKumarsankar/git-practice.git/': Could not resolve proxy: ip-172-31-24-247.ec2.internal
+
+echo $HTTP_PROXY
+echo $HTTPS_PROXY
+after checking https poxy found ip in $HTTPS_PROXY
+so excecuted below commands
+git config --global --unset https.proxy
+unset HTTPS_PROXY
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+PERSON1=Suesh
+PERSON2=Ramesh
+
+if you $ before text it is consider as variable
+$PERSON1/$[PERSON1]
+$PERSON2/${PERSON2}
+
+IN GITBASH
+=============
+git add . -->stage all the files
+git add.; git commit -m "variables"; git push origin main  -->it will add all files and push and also get commit
+
+IN SERVER
+================
+git pull
+
+
+variables
+data types
+conditions
+loops
+functions
+
+developers code will be always
+==============================
+perfomance ---> high,should load fast
+DB --> must fetch the data fast
+memory and system resources(cpu..etc) --> should consume less
+
+scripting
+============
+no DB, ne need of super perfomance and system resources
+
+Variables
+===========
+int i=0
+VAR_NAME=VALUE (no space btw name,equal and value)
+
+arguments/args/inputs
+-----------------------
+PERSON1=$1
+PERSON2=$2
+
+if arguments passes in while running shell as below
+sh 04-variables.sh Ramesh Suresh
+				(arg 1st) (arg 2nd)
+O/P:
+-----
+Ramesh:: Hi Suresh, How are you?
+Suresh:: Hello Ramesh. I am fine.			
+			
+				
+if no arguments passes in while running shell as below
+sh 04-variables.sh
+
+O/P:
+-----
+:: Hi , How are you?
+:: Hello . I am fine.
+
+echo "please enter your username::"
+read -s USERNAME #takes input into USERNAME variable
+echo "username entered is :$USERNAME"
+echo "please enter your password::"
+read -s PASSWORD
+echo "password entered is: $PASSWORD"
+
+
+
+read --> is a command takes input into USERNAME variable
+-s ---> will hide while typing in a runtime
+
+
+1.inside the script
+2.pass from outside through args
+3.Enter at runtime
+
+
+data types
+============
+1->int,float,decimal,long
+sive-->string, 
+siva is a god --->(array or arraylist-->list of names)
+list -->first element postion(0,1,2,3..etc)
+set,map,etc.,
+
+example for array
+--------------------
+#!/bin/bash
+#index starts from 0, size is 3
+fruits=("apple" "kiwi" "oragne") #array
+
+echo "first fruit is: ${fruits[0]}"
+echo "second fruit is: ${fruits[1]}"
+echo "third fruit is: ${fruits[2]}"
+
+echo "ALL fruit is: ${fruits[@]}"
+
+O/P
+---
+first fruit is:apple
+second fruit iskiwi
+third fruit is:oragne
+ALL fruit is:apple kiwi orange
+
+
+#####################SESSION -11##################################
+How do you run a command inside shell script and get the value?
+VARIABLE=$(command)
+example:- 
+----------
+DATE=$(date)  ---(date formate we can set as per requirement -search in google)
+echo "Today's date: $DATE"
+
+NUMBER1=$1
+NUMBER2=$2
+
+SUM=$(($NUMBER1+$NUMBER2))
+echo "Total of $NUMBER1 and $NUMBER2 is: $SUM"
+
+sh 08-data-types.sh 10 20
+Total of 10 and 20 is: 30
+
+
+SPECIAL VARIABLES
+==================
+1.I want all the variable passed to the script
+$@
+echo "all the variable passed to the script: $@"
+
+sh 09-special-vars.sh hem 10 20
+all the variable passed to the script: hem 10 20
+
+2.How many variable/args passsed to the script.
+$#
+echo "Number of the variables passed: $#"
+sh 09-special-vars.sh hem 10 20
+Number of the variables passed: 3
+
+3.How to know which shell name executed in the script?
+$0
+echo "Script name: $0"
+
+echo "all the variable passed to the script: $@"
+echo "Number of the variables passed: $#"
+echo "Script name: $0"
+
+sh 09-special-vars.sh hem 10 20
+O/P:
+----
+all the variable passed to the script: hem 10 20
+Number of the variables passed: 3
+Script name: 09-special-vars.sh
+
+
+4.How to know current working directory in the script?
+$pwd
+echo "current working directory: $PWD"
+current working directory: /home/ec2-user/git-practice
+
+5.How to know the script runinng by which user and his home directory?
+$home
+echo "home diectory of current user: $HOME"
+home diectory of current user: /home/ec2-user
+
+6.To know process instance id of executing shell script?
+$$
+echo "PID of the script executing now: $$"
+PID of the script executing now: 7197
+
+7. To know the pid of last background running command?
+sleep 100&
+echo "PID of last background command: $!"
+PID of last background command: 6718
+ps -ef |grep sleep
+ec2-user 6718  1 0  02:13 pts/0  00:00:00 sleep 100
+
+conditions
+============
+if -else condition
+------------------
+if [ expression ]   ---(space have to give 1st and last brace)
+then
+  echo "statement"
+else
+  echo "statement"
+fi
+
+example
+---------
+#!/bin/bash
+
+NUMBER=$1
+if [ $NUMBER -gt 20 ]  #gt(greater than),lt(less than),eq(equals to),-ne(not equals to)
+then 
+  echo "Given number: $NUMBER is greater than 20"
+else
+  echo "Given number: $NUMBER is less than 20"
+fi
+----------------------------------------------------------------------------------------------------------------
+Install mysql through shell script
+
+root access
+
+1.check the user has root access or not
+2.if root access, proceed with the script
+3.otherwise through the erros
+4.check already installed or not, if installed tell the user it is already installed.
+5.if not installed, install it
+6.check it is success or not
+
+=========================================================================================
+example;-
+#!/bin/bash
+dnf install mysql -y 
+
+sh 11-installation.sh
+error: This command has to be run with superuser privilages(under the root user of most systems)
+
+sudo sh 11-installation.sh
+installing
+
+sudo sh 11-installation.sh
+already installed
+==========================================================================================
+sudo su-
+id
+sudo userid is always 0 
+
+#!/bin/bash
+USERID=$(id -u)
+echo "user ID is: $USERID"
+
+sudo sh 11-installation.sh
+user ID is: 0
+==========================================================
+#!/bin/bash
+USERID=$(id -u)
+#echo "user ID is: $USERID"
+if [ $USERID -ne 0 ]
+then
+   echo "please run this script with root privilages"
+fi
+
+dnf install git -y
+
+sh 11-installation.sh
+please run this script with root privilages
+error: This command has to be run with superuser privilages(under the root user o most systems)
+=====================================================================================================
+
+NOTE:In shell scripting after we get error also it will proceed running the script.
+
+Q)if you face error, what you do?
+1.proceed running the script
+2.stop the script execute, clear error and run again.
+ 
+ exit status  --->exit 1 (after this command will not execute the script )
+-----------
+ 
+how will you check perivous command is success or not?
+$?
+ 
+it will tell you the status of previous command
+echo $?
+
+0 -->success
+1-127 -->failure
+===========================================================================================================
+#!/bin/bash
+USERID=$(id -u)
+#echo "user ID is: $USERID"
+if [ $USERID -ne 0 ]
+then
+   echo "please run this script with root privilages"
+   exit 1
+fi
+
+dnf install git -y
+
+sh 11-installation.sh
+please run this script with root privilages
+
+=========================================================================================================================
+ls -lrt
+
+echo $?
+o/p: 0  --->o/p is 0 so last command successfully executed
+
+lsasdac -lrt
+echo $?
+o/p: 1 --->o/p is 0 so last command not successfully executed
+============================================================================================================
+#!/bin/bash
+USERID=$(id -u)
+#echo "user ID is: $USERID"
+if [ $USERID -ne 0 ]
+then
+   echo "please run this script with root privilages"
+   exit 1
+fi
+
+dnf list installed git 
+
+if [ $? -ne 0 ]
+then 
+  echo "git is not installed, going to install it.."
+  dnf install git -y
+  if [ $? -ne 0 ]
+  then 
+     echo "git installation is not success...check it"
+	 exit 1
+   else
+      echo "Git installation is success"
+    fi
+else
+   echo "git is already installed, nothing to do.."
+fi   
+=================================================================================================================
+
+#!/bin/bash
+USERID=$(id -u)
+#echo "user ID is: $USERID"
+if [ $USERID -ne 0 ]
+then
+   echo "please run this script with root privilages"
+   exit 1
+fi
+
+dnf list installed git 
+
+if [ $? -ne 0 ]
+then 
+  echo "git is not installed, going to install it.."
+  dnf install git -y
+  if [ $? -ne 0 ]
+  then 
+     echo "git installation is not success...check it"
+	 exit 1
+   else
+      echo "Git installation is success"
+    fi
+else
+   echo "git is already installed, nothing to do.."
+fi  
+ 
+dnf list installed mysql
+
+if [ $? -ne 0 ]
+then 
+   echo "mysql is not installed, going to install"
+   dnf install mysql -y
+   if [ $? -ne 0 ]
+   then 
+	  echo "mysql installation is not success...check it"
+	  exit 1
+   else
+      echo "mysql is installed successfully"
+   fi
+else 
+	echo "mysql is already installed, nothing to do"
+fi
+=======================================================================================================
+
+FUNCTIONS:
+==========
+1.we have call function to work,we can call function at any time
+2.we have to give input to perfom some work -->we get o/p
+
+better coding:- FUNCTIONS is used to minimise the number of lines of code for same work
+we need inputs to perfom some work--> we get o/p
+
+login(username, password){
+		select * from user where user='username' and password='password'
+		if ( $? -eq 0 )
+		then 
+			echo "login success"
+		else
+			echo "login failed"
+		fi
+}
+
+syntax:-
+=========
+FUNC_NAME(){
+
+}
+
+FUNC_NAME  --->Just mentioning function name and we can call function at any time
+
+
+example
+---------
+#!/bin/bash
+USERID=$(id -u)
+#echo "user ID is: $USERID"
+
+VALIDATE() {
+	echo "exit status: $1"
+}
+
+if [ $USERID -ne 0 ]
+then
+   echo "please run this script with root privilages"
+   exit 1
+fi
+
+dnf list installed git 
+
+VALIDATE $?
+
+
+sudo sh 12-functions.sh
+O/P:
+---
+Installed packages
+exit status: 0
+
+-----------------------------------------------------------------------------------
+#!/bin/bash
+USERID=$(id -u)
+#echo "user ID is: $USERID"
+
+VALIDATE() {
+	if [ $1 -ne 0 ]    ---(here $1 values comes from the where calling function[VALIDATE] and [$?]passing args)
+	then 
+		echo "$2 is ...Failed"  ---(here $2 values comes from the where calling function[VALIDATE] and [Listing Git]passing args)
+		exit 1
+	else
+		echo "$2 is ...Success"
+	fi
+	
+}
+
+if [ $USERID -ne 0 ]
+then
+   echo "please run this script with root privilages"
+   exit 1
+fi
+
+dnf list installed git 
+
+VALIDATE $? "Listing Git"
+
+
+sudo sh 12-functions.sh
+O/P:
+---
+Installed packages
+Listing Git is ...Success
+----------------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+USERID=$(id -u)
+#echo "user ID is: $USERID"
+
+VALIDATE() {
+	if [ $1 -ne 0 ]    ---(here $1 values comes from the where calling function[VALIDATE] and [$?]passing args)
+	then 
+		echo "$2 is ...Failed"  ---(here $2 values comes from the where calling function[VALIDATE] and [Listing Git]passing args)
+		exit 1
+	else
+		echo "$2 is ...Success"
+	fi
+	
+}
+
+if [ $USERID -ne 0 ]
+then
+   echo "please run this script with root privilages"
+   exit 1
+fi
+
+dnf list installed git 
+
+if [ $? -ne 0 ]
+then 
+  echo "git is not installed, going to install it.."
+  dnf install git -y
+  VALIDATE $? "Intalling git"
+else
+   echo "git is already installed, nothing to do.."
+fi  
+ 
+dnf list installed mysql
+
+if [ $? -ne 0 ]
+then 
+   echo "mysql is not installed, going to install"
+   dnf install mysql -y
+   VALIDATE $? "Intalling mysql"
+else 
+	echo "mysql is already installed, nothing to do"
+fi
+---------------------------------------------------------------------------------------------------------------------------------------------
+#!/bin/bash
+USERID=$(id -u)
+#echo "user ID is: $USERID"
+
+CHECK_ROOT(){
+	if [ $USERID -ne 0 ]
+    then
+        echo "please run this script with root privilages"
+        exit 1
+     fi
+}
+VALIDATE() {
+	if [ $1 -ne 0 ]    ---(here $1 values comes from the where calling function[VALIDATE] and [$?]passing args)
+	then 
+		echo "$2 is ...Failed"  ---(here $2 values comes from the where calling function[VALIDATE] and [Listing Git]passing args)
+		exit 1
+	else
+		echo "$2 is ...Success"
+	fi
+	
+}
+
+CHECK_ROOT
+dnf list installed git 
+
+if [ $? -ne 0 ]
+then 
+  echo "git is not installed, going to install it.."
+  dnf install git -y
+  VALIDATE $? "Intalling git"
+else
+   echo "git is already installed, nothing to do.."
+fi  
+ 
+dnf list installed mysql
+
+if [ $? -ne 0 ]
+then 
+   echo "mysql is not installed, going to install"
+   dnf install mysql -y
+   VALIDATE $? "Intalling mysql"
+else 
+	echo "mysql is already installed, nothing to do"
+fi
+----------------------------------------------------------------------------------------------------
+COLOURS;-
+========
+Success->green
+Failure->Red
+search in google --->linux color codes
+
+echo -e "\e[32m Hello World"  ---->-e means enable, \e[32m is code for color
+
+
+#!/bin/bash
+USERID=$(id -u)
+R="\e[31m"
+G="\e[32m"
+N="\e[0m"
+#echo "user ID is: $USERID"
+
+
+VALIDATE() {
+	if [ $1 -ne 0 ]    
+	then 
+		echo "$2 is ...$R Failed $N" ---->once we opened with color then we have to close with normal color
+		exit 1
+	else
+		echo "$2 is ...$G Success $N" ---->once we opened with color then we have to close with normal color
+	fi
+	
+}
+
+if [ $USERID -ne 0 ]
+then
+   echo "please run this script with root privilages"
+   exit 1
+fi
+
+dnf list installed git 
+
+if [ $? -ne 0 ]
+then 
+  echo "git is not installed, going to install it.."
+  dnf install git -y
+  VALIDATE $? "Intalling git"
+else
+   echo "git is already installed, nothing to do.."
+fi  
+ 
+dnf list installed mysql
+
+if [ $? -ne 0 ]
+then 
+   echo "mysql is not installed, going to install"
+   dnf install mysql -y
+   VALIDATE $? "Intalling mysql"
+else 
+	echo "mysql is already installed, nothing to do"
+fi
+
+
+#################################################### SESSION-12 ############################################################################
+LOOPS:
+======
+
+for(int i=0;i<=100;i++){
+	print i;
+}
+-----------------------------------------------
+for i in 1 2 3 4 5 6 7 8 9 10
+do
+	echo $i
+done
+-------------------------------------------------------
+for i in {0..10}  ---->in shell here after two dots means it is 0to10  
+do
+	echo $i
+done
+--------------------------------------------------------------------------
+#!/bin/bash
+USERID=$(id -u)
+#echo "user ID is: $USERID"
+
+CHECK_ROOT(){
+	if [ $USERID -ne 0 ]
+    then
+        echo "please run this script with root privilages"
+        exit 1
+     fi
+}
+VALIDATE() {
+	if [ $1 -ne 0 ]    ---(here $1 values comes from the where calling function[VALIDATE] and [$?]passing args)
+	then 
+		echo "$2 is ...Failed"  ---(here $2 values comes from the where calling function[VALIDATE] and [Listing Git]passing args)
+		exit 1
+	else
+		echo "$2 is ...Success"
+	fi
+	
+}
+
+CHECK_ROOT
+#sudo sh 15-loop.sh git mysql postfix nginx
+for package in $@  ------>special-vars it refers all args can passed to it
+do
+	echo $package
+done
+
+
+sudo sh 15-loop.sh git
+git
+-----------------------------------------------------------------------------------------------------
+#!/bin/bash
+USERID=$(id -u)
+#echo "user ID is: $USERID"
+
+CHECK_ROOT(){
+	if [ $USERID -ne 0 ]
+    then
+        echo "please run this script with root privilages"
+        exit 1
+    fi
+}
+VALIDATE() {
+	if [ $1 -ne 0 ]    ---(here $1 values comes from the where calling function[VALIDATE] and [$?]passing args)
+	then 
+		echo "$2 is ...Failed"  ---(here $2 values comes from the where calling function[VALIDATE] and [Listing Git]passing args)
+		exit 1
+	else
+		echo "$2 is ...Success"
+	fi
+	
+}
+
+CHECK_ROOT
+
+#sudo sh 15-loop.sh git mysql postfix nginx
+for package in $@  ------>special-vars it refers all args can passed to it
+do
+	dnf list installed $package
+	if [ $? -ne 0 ]
+	then 
+		echo "$package is not installed, going to install it.."
+		dnf install $package -y
+		VALIDATE $? "Intalling $package"
+	else
+		echo "$package is already installed, nothing to do.."
+	fi  	
+done
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+LOGS
+======
+redirectors
+------------
+ls -l ---command success
+lsss  ---command failure
+ls -l > output.txt --->this commmand by default will print only the success o/p in the output.txt file
+lsss > output.txt --> this command doesn't wrk due to failure o/p
+
+1 --> is for success
+2 --> is for error
+
+ls -l 2> output.txt  -->this command doesn't print o/p in output.txt file and only displays in terminal
+lss 1> output.txt  -->this command doesn't print o/p in output.txt file and only displays in terminal
+ls -l &> output.txt -->irrespective of results(succes/error) this command does print o/p in output.txt file
+the above command over write old content once it runs again.
+
+ls -lrt &>> output.txt  --> this command appendS the results.
+
+log loaction in server always is -/var/log
+------------------------------------
+example: /var/log/shell-script/16-redirectors-<timestamp>.log
+--------------------------------------------------------------
+#! /bin/bash/
+
+LOGS_FOLDER="/var/log/shell-script"
+SCRIPT_NAME=$(echo $0 | cut -d "." -f1)  --->$0 gives the filename executed, from that filename [cut -d "." -f1] with "." dilimiter divides file and takes first word(-f1 means first argument)
+TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S) ---> in server date --help it will gives date formate information
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME-$TIMESTAMP.log"
+mkdir -p $LOGS_FOLDER   -->not aware folder created or not in server we will create(-p) means if already folder exists then ignore
+
+USERID=$(id -u)
+R="\e[31m"
+G="\e[32m"
+N="\e[0m"
+#echo "user ID is: $USERID"
+
+CHECK_ROOT(){
+	if [ $USERID -ne 0 ]
+    then
+        echo -e "$R please run this script with root privilages $N" &>>$LOG_FILE
+        exit 1
+    fi
+}
+VALIDATE() {
+	if [ $1 -ne 0 ]   
+	then 
+		echo "$2 is ...$R Failed $N" &>>$LOG_FILE
+		exit 1
+	else
+		echo "$2 is ...$G Success $N" &>>$LOG_FILE
+	fi
+	
+}
+
+CHECK_ROOT
+
+for package in $@  ------>special-vars it refers all args can passed to it
+do
+	dnf list installed $package &>>$LOG_FILE
+	if [ $? -ne 0 ]
+	then 
+		echo -e "$package $R is not installed, going to install it.. $N" &>>$LOG_FILE
+		dnf install $package -y &>>$LOG_FILE
+		VALIDATE $? "Intalling $package"
+	else
+		echo -e "$package $Y is already installed, nothing to do.. $N" &>>$LOG_FILE
+	fi  	
+done
+----------------------------------
+sudo sh 16-redirectors.sh
+o/p: no o/p
+because here user have to pass the args while running the script as below
+sudo sh 16-redirectors.sh git
+--------------------------------------------------------------
+TO KNOW THE USER HAVE TO GIVE ARGS BEFORE SCRIPT RUNNING
+USAGE(){
+}
+SCRIPT exection time will displays in terminal
+------------------------------------------------------------------------------------------------------
+#! /bin/bash/
+
+LOGS_FOLDER="/var/log/shell-script"
+SCRIPT_NAME=$(echo $0 | cut -d "." -f1)  --->$0 gives the filename executed from that filename [cut -d "." -f1] with "." dilimiter divides file and takes first word(-f1 means first argument)
+TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S) ---> in server date --help it will gives date formate information
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME-$TIMESTAMP.log"
+mkdir -p $LOGS_FOLDER   -->not aware folder created or not in server we will create(-p) means if already folder exists then ignore
+
+USERID=$(id -u)
+R="\e[31m"
+G="\e[32m"
+N="\e[0m"
+#echo "user ID is: $USERID"
+
+CHECK_ROOT(){
+	if [ $USERID -ne 0 ]
+    then
+        echo -e "$R please run this script with root privilages $N" &>>$LOG_FILE
+        exit 1
+    fi
+}
+
+USAGE(){
+	echo -e "$R $USAGE:: $N sudo sh 16-redirectors.sh package1 package2.."
+	exit 1
+}
+
+VALIDATE() {
+	if [ $1 -ne 0 ]   
+	then 
+		echo "$2 is ...$R Failed $N" &>>$LOG_FILE
+		exit 1
+	else
+		echo "$2 is ...$G Success $N" &>>$LOG_FILE
+	fi
+	
+}
+echo "Script started executing at : $(date)" &>>$LOG_FILE
+
+CHECK_ROOT
+
+if [ $# -eq 0 ]
+then
+	USAGE
+fi
+
+
+for package in $@  ------>special-vars it refers all args can passed to it
+do
+	dnf list installed $package &>>$LOG_FILE
+	if [ $? -ne 0 ]
+	then 
+		echo -e "$package $R is not installed, going to install it.. $N" &>>$LOG_FILE
+		dnf install $package -y &>>$LOG_FILE
+		VALIDATE $? "Intalling $package"
+	else
+		echo -e "$package $Y is already installed, nothing to do.. $N" &>>$LOG_FILE
+	fi  	
+done
+--------------------------------------------------------------------------------------------------
+write logs on terminal and logfile both.
+we can also write only imp msgs on terminal.
+
+tee -->  used to write logs to multiple destinantions(tee -a)-> means appendS
+Note:1.Below changes in SCRIPT is | tee -a &>>$LOG_FILE(here appending -a and >>) so this will not run
+2.| tee -a $LOG_FILE --->this write logs on terminal and logfile both
+-----------------------------------------------------------------------------------------------------------
+
+#! /bin/bash/
+
+LOGS_FOLDER="/var/log/shell-script"
+SCRIPT_NAME=$(echo $0 | cut -d "." -f1)  --->$0 gives the filename executed from that filename [cut -d "." -f1] with "." dilimiter divides file and takes first word(-f1 means first argument)
+TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S) ---> in server date --help it will gives date formate information
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME-$TIMESTAMP.log"
+mkdir -p $LOGS_FOLDER   -->not aware folder created or not in server we will create(-p) means if already folder exists then ignore
+
+USERID=$(id -u)
+R="\e[31m"
+G="\e[32m"
+N="\e[0m"
+#echo "user ID is: $USERID"
+
+CHECK_ROOT(){
+	if [ $USERID -ne 0 ]
+    then
+        echo -e "$R please run this script with root privilages $N" | tee -a $LOG_FILE
+        exit 1
+    fi
+}
+
+USAGE(){
+	echo -e "$R $USAGE:: $N sudo sh 16-redirectors.sh package1 package2.."
+	exit 1
+}
+
+VALIDATE() {
+	if [ $1 -ne 0 ]   
+	then 
+		echo -e "$2 is ...$R Failed $N" | tee -a $LOG_FILE
+		exit 1
+	else
+		echo -e "$2 is ...$G Success $N" | tee -a $LOG_FILE
+	fi
+	
+}
+echo "Script started executing at : $(date)" | tee -a $LOG_FILE
+
+CHECK_ROOT
+
+if [ $# -eq 0 ]
+then
+	USAGE
+fi
+
+
+for package in $@  ------>special-vars it refers all args can passed to it
+do
+	dnf list installed $package &>>$LOG_FILE
+	if [ $? -ne 0 ]
+	then 
+		echo -e "$package $R is not installed, going to install it.. $N" | tee -a $LOG_FILE
+		dnf install $package -y &>>$LOG_FILE
+		VALIDATE $? "Intalling $package"
+	else
+		echo -e "$package $Y is already installed, nothing to do.. $N" | tee -a $LOG_FILE
+	fi  	
+done
+
+=============================1.03hr to continue
+expense project automating with Shell ---in mysql server installing mysql
+---------------------------------------------------------------------------
+#! /bin/bash/
+
+LOGS_FOLDER="/var/log/expense"
+SCRIPT_NAME=$(echo $0 | cut -d "." -f1)  --->$0 gives the filename executed from that filename [cut -d "." -f1] with "." dilimiter divides file and takes first word(-f1 means first argument)
+TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S) ---> in server date --help it will gives date formate information
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME-$TIMESTAMP.log"
+mkdir -p $LOGS_FOLDER   -->not aware folder created or not in server we will create(-p) means if already folder exists then ignore
+
+USERID=$(id -u)
+R="\e[31m"
+G="\e[32m"
+N="\e[0m"
+#echo "user ID is: $USERID"
+
+CHECK_ROOT(){
+	if [ $USERID -ne 0 ]
+    then
+        echo -e "$R please run this script with root privilages $N" | tee -a $LOG_FILE
+        exit 1
+    fi
+}
+
+
+VALIDATE() {
+	if [ $1 -ne 0 ]   
+	then 
+		echo -e "$2 is ...$R Failed $N" | tee -a $LOG_FILE
+		exit 1
+	else
+		echo -e "$2 is ...$G Success $N" | tee -a $LOG_FILE
+	fi
+	
+}
+echo "Script started executing at : $(date)" | tee -a $LOG_FILE
+
+CHECK_ROOT
+
+dnf Install mysql-server -y &>>$LOG_FILE
+VALIDATE $? "installing mysql server"
+
+systemctl enable mysqld &>>$LOG_FILE
+VALIDATE $? "Enabled mysql server"
+
+systemctl start mysqld &>>$LOG_FILE
+VALIDATE $? "Started mysql server"
+
+mysql_secure_installation --set-root-pass ExpenseApp@1 &>>LOG_FILE
+VALIDATE $? "Setting up root password"
+ 
+sudo sh mysql.sh
+
+idempotency
+============
+if you a run a program/script for infinite times, it should not change the results
+
+if already password setup, still if try to setup password then it will gives just password already has been setup.
+that means it doesn't affect to code or anything. 
+example:- check already mysql root password is setup or not, if setup you can tell already done...otherwise setup
+--------
+
+#! /bin/bash/
+
+LOGS_FOLDER="/var/log/expense"
+SCRIPT_NAME=$(echo $0 | cut -d "." -f1)  --->$0 gives the filename executed from that filename [cut -d "." -f1] with "." dilimiter divides file and takes first word(-f1 means first argument)
+TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S) ---> in server date --help it will gives date formate information
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME-$TIMESTAMP.log"
+mkdir -p $LOGS_FOLDER   -->not aware folder created or not in server we will create(-p) means if already folder exists then ignore
+
+USERID=$(id -u)
+R="\e[31m"
+G="\e[32m"
+N="\e[0m"
+#echo "user ID is: $USERID"
+
+CHECK_ROOT(){
+	if [ $USERID -ne 0 ]
+    then
+        echo -e "$R please run this script with root privilages $N" | tee -a $LOG_FILE
+        exit 1
+    fi
+}
+
+
+VALIDATE() {
+	if [ $1 -ne 0 ]   
+	then 
+		echo -e "$2 is ...$R Failed $N" | tee -a $LOG_FILE
+		exit 1
+	else
+		echo -e "$2 is ...$G Success $N" | tee -a $LOG_FILE
+	fi
+	
+}
+echo "Script started executing at : $(date)" | tee -a $LOG_FILE
+
+CHECK_ROOT
+
+dnf Install mysql-server -y &>>$LOG_FILE
+VALIDATE $? "installing mysql server"
+
+systemctl enable mysqld &>>$LOG_FILE
+VALIDATE $? "Enabled mysql server"
+
+systemctl start mysqld &>>$LOG_FILE
+VALIDATE $? "Started mysql server"
+
+mysql -h mysql.daws81s.online -u root -pExpenseApp@1 -e 'show database;' &>>$LOG_FILE  --->this command connect to mysql server with given DNS/IP(dns ->Route53(AWS)->select mysql from records->DNS management select(daws81s.online)->edit record->type mysql->give mysql private ip->save)
+if [ $? -ne 0 ]
+then 
+	echo "mysql root password is not setup, setting now" &>>$LOG_FILE
+	mysql_secure_installation --set-root-pass ExpenseApp@1 
+	VALIDATE $? "Setting up root password"
+else
+	echo -e "mysql root password is already setup---$Y SKIPPING $N" | tee -a $LOG_FILE
+
+fi
+--------------------
+sudo sh mysql.sh
+will give O/P
+
+check mysql is running or not
+netstat -lntp  -->gives mysql port number
+-------------
+
+
+#Assignment
+#check MYSQL server is installed or not, enabled or not, started or not
+#implement the aboe things
+
+############################################################################## SESSION-13 ############################################################################################
+Deployment or new version release
+---------------------------------
+1.downtime announce -->we are under maintanance on 29-AUG from 02:00AM-06:00AM
+2.stop the SERVER
+3.backup the previous version
+4.remove the existing version
+4.download the new version
+5.start the SERVER
+
+create 3instances one is mysql instances,second is backend and third is backend server
+
+ dns ->Route53(AWS)->select mysql from records->DNS management select(daws81s.online)->edit record->type mysql->give mysql private ip->save
+ same as above script
+ dns ->Route53(AWS)->select mysql from records->DNS management select(daws81s.online)->edit record->type backend->give backend private ip->save
+ dns ->Route53(AWS)->select mysql from records->DNS management select(daws81s.online)->edit record->type frontend->give frontend private ip->save
+ 
+ ""Go to documentation in github ->expenses-documentation->backend follow this documentation.""
+ 
+ 
+#! /bin/bash/
+
+LOGS_FOLDER="/var/log/expense"
+SCRIPT_NAME=$(echo $0 | cut -d "." -f1)  --->$0 gives the filename executed from that filename [cut -d "." -f1] with "." dilimiter divides file and takes first word(-f1 means first argument)
+TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S) ---> in server date --help it will gives date formate information
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME-$TIMESTAMP.log"
+mkdir -p $LOGS_FOLDER   -->not aware folder created or not in server we will create(-p) means if already folder exists then ignore
+
+USERID=$(id -u)
+R="\e[31m"
+G="\e[32m"
+N="\e[0m"
+#echo "user ID is: $USERID"
+
+CHECK_ROOT(){
+	if [ $USERID -ne 0 ]
+    then
+        echo -e "$R please run this script with root privilages $N" | tee -a $LOG_FILE
+        exit 1
+    fi
+}
+
+
+VALIDATE() {
+	if [ $1 -ne 0 ]   
+	then 
+		echo -e "$2 is ...$R Failed $N" | tee -a $LOG_FILE
+		exit 1
+	else
+		echo -e "$2 is ...$G Success $N" | tee -a $LOG_FILE
+	fi
+	
+}
+echo "Script started executing at : $(date)" | tee -a $LOG_FILE
+
+CHECK_ROOT
+
+dnf module disable nodejs -y &>>$LOG_FILE
+VALIDATE $? "disable default nodejs"
+
+dnf module enable nodejs:20 -y &>>$LOG_FILE
+VALIDATE $? "enable nodejs:20"
+
+dnf install nodejs -y | tee -a $LOG_FILE
+VALIDATE $? "Install nodejs"
+
+useradd expense &>>$LOG_FILE
+VALIDATE $? "create expense user"
+--------------------------------------
+Executing:
+sudo sh backend.sh 
+create expense user Failed
+
+NOTE:it failed due user already exists,if you check a exit status $? :->o/p is 1 this doesn't mean script failed in this case we use idempotency.
+------------------------------------
+
+#! /bin/bash/
+
+LOGS_FOLDER="/var/log/expense"
+SCRIPT_NAME=$(echo $0 | cut -d "." -f1)  --->$0 gives the filename executed from that filename [cut -d "." -f1] with "." dilimiter divides file and takes first word(-f1 means first argument)
+TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S) ---> in server date --help it will gives date formate information
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME-$TIMESTAMP.log"
+mkdir -p $LOGS_FOLDER   -->not aware folder created or not in server we will create(-p) means if already folder exists then ignore
+
+USERID=$(id -u)
+R="\e[31m"
+G="\e[32m"
+N="\e[0m"
+#echo "user ID is: $USERID"
+
+CHECK_ROOT(){
+	if [ $USERID -ne 0 ]
+    then
+        echo -e "$R please run this script with root privilages $N" | tee -a $LOG_FILE
+        exit 1
+    fi
+}
+
+
+VALIDATE() {
+	if [ $1 -ne 0 ]   
+	then 
+		echo -e "$2 is ...$R Failed $N" | tee -a $LOG_FILE
+		exit 1
+	else
+		echo -e "$2 is ...$G Success $N" | tee -a $LOG_FILE
+	fi
+	
+}
+echo "Script started executing at : $(date)" | tee -a $LOG_FILE
+
+CHECK_ROOT
+
+dnf module disable nodejs -y &>>$LOG_FILE
+VALIDATE $? "disable default nodejs"
+
+dnf module enable nodejs:20 -y &>>$LOG_FILE
+VALIDATE $? "enable nodejs:20"
+
+dnf install nodejs -y | tee -a $LOG_FILE
+VALIDATE $? "Install nodejs"
+
+useradd expense &>>$LOG_FILE
+VALIDATE $? "create expense user"
+
+id expense &>>$LOG_FILE
+if [ $? -ne 0 ]
+then	
+	echp -e "expense user not exists---$G Creating $N"
+	useradd expense &>>$LOG_FILE
+	VALIDATE $? "creating expense user"
+else
+	echo -e "expense user already exists..$Y SKIPPING $N"
+fi
+------------------------------------------------------------------------------------------------------------
+#! /bin/bash/
+
+LOGS_FOLDER="/var/log/expense"
+SCRIPT_NAME=$(echo $0 | cut -d "." -f1)  --->$0 gives the filename executed from that filename [cut -d "." -f1] with "." dilimiter divides file and takes first word(-f1 means first argument)
+TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S) ---> in server date --help it will gives date formate information
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME-$TIMESTAMP.log"
+mkdir -p $LOGS_FOLDER   -->not aware folder created or not in server we will create(-p) means if already folder exists then ignore
+
+USERID=$(id -u)
+R="\e[31m"
+G="\e[32m"
+N="\e[0m"
+#echo "user ID is: $USERID"
+
+CHECK_ROOT(){
+	if [ $USERID -ne 0 ]
+    then
+        echo -e "$R please run this script with root privilages $N" | tee -a $LOG_FILE
+        exit 1
+    fi
+}
+
+
+VALIDATE() {
+	if [ $1 -ne 0 ]   
+	then 
+		echo -e "$2 is ...$R Failed $N" | tee -a $LOG_FILE
+		exit 1
+	else
+		echo -e "$2 is ...$G Success $N" | tee -a $LOG_FILE
+	fi
+	
+}
+echo "Script started executing at : $(date)" | tee -a $LOG_FILE
+
+CHECK_ROOT
+
+dnf module disable nodejs -y &>>$LOG_FILE
+VALIDATE $? "disable default nodejs"
+
+dnf module enable nodejs:20 -y &>>$LOG_FILE
+VALIDATE $? "enable nodejs:20"
+
+dnf install nodejs -y | tee -a $LOG_FILE
+VALIDATE $? "Install nodejs"
+
+useradd expense &>>$LOG_FILE
+VALIDATE $? "create expense user"
+
+
+id expense &>>$LOG_FILE
+if [ $? -ne 0 ]
+then	
+	echp -e "expense user not exists---$G Creating $N"
+	useradd expense &>>$LOG_FILE
+	VALIDATE $? "creating expense user"
+else
+	echo -e "expense user already exists..$Y SKIPPING $N"
+fi
+
+mkdir -p /app
+
+VALIDATE $? "creating /app folder"
+
+curl -o /temp/backend.zip https://expense...-v2.zip (this will get from document)
+
+VALIDATE $? "Downloading backend application code"
+
+cd /app
+rm -rf /app/*  #remove the existing code ---if this line of code not placed then if you executing code 2nd times you will get error like already exists.
+unzip /tmp/backend.zip &>>$LOG_FILE
+VALIDATE $? "Extracting backend application code"
+
+npm install &>>$LOG_FILE                     ####npm install ===25mins to continue
+
+###take backend service from document create .service file in expense-shell repo and configure mysql server and then copy to /etc/systemd/system/backend.service
+===========================================================================
+[Unit]
+Description = Backend Service
+
+[Service]
+User=expense
+Environment=DB_HOST="mysql.daws81s.online"
+ExecStart=/bin/node /app/index.js
+SyslogIdentifier=backend
+
+[Install]
+WantedBy=multi-user.target
+============================================================================
+cp /home/ec2-user/expense-shell.backend.service /etc/systemd/system/backend.service
+
+#load the data before runinng backend 
+dnf Install mysql -y &>>$LOG_FILE
+VALIDATE $? "installing mysql client"
+
+mysql -h DNS/ip -u root -p ExpenseApp@1 < /app/schema/backend.sql   ---this command connects mysql client host with root user and passwd given and reads the backend.sql file
+
+### this backend.sql should be idempotency you have to check query  --29mins
+
+systemctl daemon-reload &>>$LOG_FILE
+VALIDATE $? "Daemon reload"
+
+systemctl enable backend &>>$LOG_FILE
+VALIDATE $? "Enabled backend"
+
+systemctl restart backend &>>LOG_FILE
+VALIDATE $? "Restarted backend"
+
+
+sudo sh backend.sh 
+o/p:
+netstat -lntp
+systemctl status backend
+ps -ef |grep backend
+ps -ef |grep node 
+telnet mysql.daws81s.online 3306
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+frontend:
+==========
+#! /bin/bash/
+
+LOGS_FOLDER="/var/log/expense"
+SCRIPT_NAME=$(echo $0 | cut -d "." -f1)  --->$0 gives the filename executed from that filename [cut -d "." -f1] with "." dilimiter divides file and takes first word(-f1 means first argument)
+TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S) ---> in server date --help it will gives date formate information
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME-$TIMESTAMP.log"
+mkdir -p $LOGS_FOLDER   -->not aware folder created or not in server we will create(-p) means if already folder exists then ignore
+
+USERID=$(id -u)
+R="\e[31m"
+G="\e[32m"
+N="\e[0m"
+#echo "user ID is: $USERID"
+
+CHECK_ROOT(){
+	if [ $USERID -ne 0 ]
+    then
+        echo -e "$R please run this script with root privilages $N" | tee -a $LOG_FILE
+        exit 1
+    fi
+}
+
+
+VALIDATE() {
+	if [ $1 -ne 0 ]   
+	then 
+		echo -e "$2 is ...$R Failed $N" | tee -a $LOG_FILE
+		exit 1
+	else
+		echo -e "$2 is ...$G Success $N" | tee -a $LOG_FILE
+	fi
+	
+}
+echo "Script started executing at : $(date)" | tee -a $LOG_FILE
+
+CHECK_ROOT
+
+dnf Install nginx -y &>>$LOG_FILE
+VALIDATE $? "installing nginx"
+
+systemctl enable nginx &>>$LOG_FILE
+VALIDATE $? "enable nginx"
+
+systemctl start nginx &>>$LOG_FILE
+VALIDATE $? "start nginx"
+
+rm -r /usr/share/nginx/html/* &>>$LOG_FILE
+VALIDATE $? "Removing default website"
+
+curl -o /tmp/frontend.zip https://.........v2.zip &>>$LOG_FILE
+VALIDATE $? "Downloading frontend code"
+
+cd /usr/share/nginx/html
+unzip /tmp/frontend.zip &>>$LOG_FILE
+VALIDATE $? "Extract frontend code"
+
+#---------create expense configure in expense-shell repo----------
+proxy_http_version 1.1;
+
+location /api/ { proxy_pass http://backend.daws81s.online:8080/; }
+
+location /health {
+  stub_status on;
+  access_log off;
+}
+=============================================================================
+cp /home/ec2-user/expense-shell.expense.conf /etc/nginx/default.d/expense.conf
+VALIDATE $? "Copied expemse conf"
+
+systemctl restart nginx
+VALIDATE $? "Restarted nginx"
+--------------------------
+sudo sh frontend.sh
+O/P:
+netstat -lntp
+---------------------------------------------------------------------------
+go to frontend website and give inputs and test all codes and methods
+-----------------------------------------------------------------------
+request flow is --frontend->backend->DB
+frontend log location:/var/log/nginx
+backend log loaction:/var/log/messages
+
+HTTP Method and HTTP status codes
+==================================
+CRUD
+
+get  ->read the data from DB
+post ->create the data means you should send data. Usually it goes as json.
+put ->update. update the existing information
+delete ->delete.
+options ->?
+
+status codes
+-------------
+2** -->200,201,204 --success
+4** -->400 clinet side error
+who is the client for backend -->frontend 
+400 -bad request
+401 -unauthorized
+402 -payment required
+403 -forbidden (you have logged but you don't have access)
+404 - file not found
+405 - Method not allowed (instead of put method you have given post method)
+
+5** -->server side error. they have to fix
+500 -internal SERVER
+502 -bad gateway
+502 -service unavailable
+504 - gateway timeout
+
+3** --.redirecting error
+
+
+Upto here expense project automated with shell script
+
+----------------continue form 55min
+
+set -e -->command is used to exit when error is occurred.
+set -ex -> command is used to exit when error is occurred and debug the cause of errors.
+set -o --> after pipe it will execute o/p even though the command before pipe not found.
+ 
+ #!/bin/bash
+ 
+ 
+echo "Hello world success"
+echooo "Hello World failure"
+echo "hello World after failure"
+
+----------------------------------------
+sh .17-set.sh
+
+Hello world success
+line 5: echooo: command not found
+hello World after failure
+-----------------------------------------
+#!/bin/bash
+ 
+set -e # settinf the automatic exit, if we get error.
+echo "Hello world success"
+echooo "Hello World failure"
+echo "hello World after failure"
+
+----------------------------------
+sh .17-set.sh
+Hello world success
+line 5: echooo: command not found
+----------------------------------------
+
+#!/bin/bash
+ 
+set -ex # settinf the automatic exit, if we get error, set -ex for debug. echo "Hello world success"
+echo "Hello world success"
+echooo "Hello World failure"
+echo "hello World after failure"
+
+
+--------------------------------------------
+sh .17-set.sh
+Hello world success
++echooo 'Hello World failure'
+line 5: echooo: command not found
+
+--------------------------------------------------
+
+trap function  -----------> search in google trap function shell
+==============
+
+#!/bin/bash
+ 
+set -ex # set -e inf the automatic exit, if we get error, set -ex for debug. echo "Hello world success"
+
+failure(){
+	echo "Failed at $1:$2"
+}
+
+trap 'failure "${LINENO}" "$BASH_COMMAND" ' ERR # ERR is the error singal
+echo "Hello world success"
+echooo "Hello World failure"
+echo "hello World after failure"
+
+-----------------------------------------------------
+sh .17-set.sh
+Hello world success
+line 5: echooo: command not found
+Failed at: 12:echooo "Hello World failure"
+--------------------------------------------------------
+
+Deleting old logs 
+using shell-script 
+======================================== 
+touch -d "2024-01-01 12:00" filename.txt
+This command sets the access and modification timestamps of filename.txt to January 1, 2024, at 12:00 PM
+
+find . -name "*.log"  -->find command will search, in .(dot) means current directory,-name means will sort which filename contains only .log
+
+find . -name "*.log" -mtime +14 --> -mtime mean old files which is (+14)14days ago
+[we can google to find the files which is older than 14days in linux]
+
+
+find . -name "*.log" -mtime +14 -exec ls -lrt {} \; --> -exec means execute the following command ls -lrt {} \;
+find /home/ec2-user/logs -name "*.log" -mtime +14 -->find all .log files in given directory which is more than 14days old
+write a Script that should delted.log files which are older than 14days
+*.log --->more than 14days old
+algorithm
+==========
+1.which directory
+2.is that diectory exists?
+3.find the files
+4.delete them
+
+
+
+#!/bin/bash
+
+Source_dir=/home/ec2-user/logs
+R="\e[31m"
+G="\e[32m"
+N="\e[0m"
+Y="\e[33m"
+
+ #directory exits or not shell we can google it -d 
+ #o check if a directory exists in a shell script, you can use the -d flag with the test command. 
+ 
+ if [ -d $Source_dir ]
+ then
+	echo -e "$Source_dir $G Exists $N"
+else	
+	echo -e "$Source_dir $R does not exits $N"
+	exit 1
+fi
+
+FILES=$(find $Source_dir -name "*.log" -mtime +14)
+echo "Files: $FILES"
+
+-------------------------------------
+sh 18-delete-old-logs.sh
+	/home/ec2-user/logs Exists 
+	Files: /home/ec2-user/logs Exists/frontend.log
+		   /home/ec2-user/logs Exists/backend.log 
+--------------------------------------	
+
+while loop --> read the o/p or reading the files
+---------------------------------------------------
+
+#!/bin/bash
+
+Source_dir=/home/ec2-user/logs
+R="\e[31m"
+G="\e[32m"
+N="\e[0m"
+Y="\e[33m"
+
+ #directory exits or not shell we can google it -d 
+ #to check if a directory exists in a shell script, you can use the -d flag with the test command. 
+ 
+ if [ -d $Source_dir ]
+ then
+	echo -e "$Source_dir $G Exists $N"
+else	
+	echo -e "$Source_dir $R does not exits $N"
+	exit 1
+fi
+
+FILES=$(find $Source_dir -name "*.log" -mtime +14)
+echo "Files: $FILES"
+---------------------------------------------------------------------
+while(condition)    --->google while reading output shell
+do
+
+done <<< $FILES   ----> giving input to done by giving less than symbol
+-----------------------------------------------------------------------
+while IFS= read -r file #IFS,internal fields seperator, empty it will ignore while space.-r is for not to ignore special charcters like /
+do
+	echo "Deleting line: $file"
+	rm -rf $file
+
+done <<< $FILES   --> <<< mean it will read FILES in line by line
+
+-------------------------------------
+sh 18-delete-old-logs.sh
+	/home/ec2-user/logs Exists 
+	Files: /home/ec2-user/logs Exists/frontend.log
+		   /home/ec2-user/logs Exists/backend.log 
+	Deleting line: /home/ec2-user/logs Exists/frontend.log
+	Deleting line: /home/ec2-user/logs Exists/backend.log 	
+--------------------------------------	
+crontab is used to schedule the scripts in linux periodically. midnight,hourly,weedends
+=======
+5 4 *   *      * 
+M H day month day(week)
+
+*/2 * * * * --->every 2mins
+ 
+Archiving/backingup logs
+=========================
+logs-Source_dir ---> destinantion-directory(zip them)
+algorithm
+-------------
+1.dynamically user give source directory,destinantion directory,number of days
+2.Number  of days --> optional, if they don't provide, default is 14days
+3.get the source directory, destinantion-directory, days from user
+4.if they are not providing, show them usage and exit
+
+/home/ec2-user/app-logs
+/home/ec2-user/backup
+
+#!/bin/bash
+
+Source_dir=$1
+Dest_dir=$2
+DAYS=${3:-4} #IF $3 IS EMPTY default is 14DAYS
+timestamps=$(date +%y-%m-%d-%H-%M-%S)
+
+R="\e[31m"
+G="\e[32m"
+N="\e[0m"
+Y="\e[33m"
+
+USAGE(){
+	echo -e "$R USAGE:: $N sh <source> <destinantion> <days(optional)>"
+}
+
+#check the source and destinantion are provided
+
+if [ $# -lt 2 ]  --->how check a value is empty in shell script google it -z "$var"
+then
+	USAGE 
+	exit 1
+fi
+
+if [ ! -d $Source_dir]  -->-d Source_dir means it search for directory if found then ture,not then false --if it is true due ! it becomes false
+then
+	echo "&Source_dir does not exist...please check"
+fi
+
+if [ ! -d $Dest_dir]
+then
+	echo "&Dest_dir does not exist...please check"
+fi
+
+FILES=$(find $Source_dir -name "*.log" -mtime +14)  #-->shell script in if condition to check Number
+
+if [ ! -z $FILES ] #-z $FILES means  FILES is empty.
+then
+	echo "Files are found"
+else	
+	echo "No files older than $DAYS"
+fi
+----------------------------------------
+sh 19-backup.sh /home/ec2-user/app-logs /home/ec2-user/backup
+Files:
+No files older than 14
+---------------------------------------------
+cd../app-logs/
+touch -d 20240101 mysql.log
+
+cd../git-practice/
+sh 19-backup.sh /home/ec2-user/app-logs /home/ec2-user/backup
+Files: /home/ec2-user/app-logs/mysql.log
+Files are found
+------------------------------------------------
+find . -name "*.log" -mtime +14 | zip smaple.zip -@
+app-logs-
+Zipping logs
+-------------
+if [ ! -z $FILES ] #-z $FILES means true FILES is empty, ! makes it expression false
+then
+	echo "Files are found"
+	ZIP_FILE="$Dest_dir/app-logs-$TIMESTAMP.zip"
+	find ${Source_dir} -name "*.log" -mtime +14 | zip "$ZIP_FILE" -@
+	
+	#check IF ZIP FILE IS SUCCESSFULLY CREATED OT not
+	if [ -f $ZIP_FILE ]
+	then 
+		echo "Sucessfully zipped files older than $DAYS"
+		
+		#remove the files after Zipping
+		while IFS= read -r file #IFS,internal fiedls seperator, empty it will ignore while space.-r is for not to ignore special charcters like /
+		do
+			echo "Deleting line: $file"
+			rm -rf $file
+		done <<< $FILES   --> <<< mean it will read FILES in line by line
+
+	else	
+		echo "Zipping the files is failed"
+		exit 1
+	fi
+else	
+	echo "No files older than $DAYS"
+fi
+---------------------------------------------
+cd../app-logs/
+touch -d 20240101 mysql.log
+
+cd../git-practice/
+sh 19-backup.sh /home/ec2-user/app-logs /home/ec2-user/backup
+Files: /home/ec2-user/app-logs/mysql.log
+Files are found
+ adding: home/ec2-user/app-logs/mysql.log
+successfully zipped files plder than 14
+Deleting file: /home/ec2-user/app-logs/mysql/log
+
+
+cd /home/ec2-user/backup
+app-logs-2024-09-02-20-42.zip
+------------------------------------------------
+======================================================================
+NOTE: every commands will store in bin.
+so we can mak scripts like command
+for example backup.sh is a script making as command.
+firstly give execute permission to the file and using sudo user we copy the file to bin.
+1.chmod +x backup.sh 
+2.sudo cp backup.sh /bin/backup
+now we can use backup.sh file as backup command
+=================================================================================
+
+check HD memory , send email if it corsess more than 75%
+==========================================================
+df -kh 
+
+df -hT | grep xfs   -->(xfs is type displays all mounts under this type)
+
+df -hT | grep xfs | awk -F " " '{print $6F}'
+30%
+5%
+53%
+18%
+df -hT | grep xfs | awk -F " " '{print $6F}' | cut -d "%" -f1
+30
+5
+53
+18
+df -hT | grep xfs | awk -F " " '{print $NF}'
+/
+/home
+/boot
+/var
+/var/log
+
+--------------------------------------------------------------------------
+!#/bin/bash
+
+DiSK_USAGE=$(df -hT | grep xfs)
+DISK_THERSHOLD=$5 #real projects, it is usually 75
+
+while IFS= read -r file #IFS,internal fiedls seperator, empty it will ignore while space.-r is for not to ignore special charcters like /
+do
+	USAGE=$(echo $line | grep xfs | awk -F " " '{print $6F}' | cut -d "%" -f1)
+	PARTITION=$(echo $line | grep xfs | awk -F " " '{print $NF}')
+	if [ &USAGE -ge $DiSK_USAGE ]
+	then
+		echo "$PARTITION is more than $DISK_THERSHOLD, current value: USAGE, please check"
+	fi
+done <<< $DiSK_USAGE   --> <<< mean it will read DiSK_USAGE in line by line
+
+======================================================================================
+####Assignment####
+Read the file and count the number of each word/print the top 5 occurences
+reverse rowa into column and column as rows
+
+
+
+
+

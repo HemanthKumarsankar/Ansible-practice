@@ -1,0 +1,526 @@
+aws a/c: 992382721035
+IAM UN: Hemanth98
+Hem@12345$
+uname --gives username
+uname -help 
+corecamp --youtube channel ref by jaya 
+cp /etc/passwd users
+
+users information will present.
+==============================
+cat /etc/passwd
+
+grep <word -to -find>  <file>  -->to find word in a file
+
+grep -i will search irrespective of caps and samll word.
+
+wget url -> it will get the file into terminal and download the file
+
+curl url -> it will display the file into terminal and used to run the scripts.
+
+cut command used to divide the sentance/url into words
+https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:instanceState=running
+
+cut command,delimiter
+cut -d "/" -f1
+
+echo url | cut -d "/" -f1
+o/p:
+https:
+us-east-1.console.aws.amazon.com
+ec2
+home?region=us-east-1#Instances:instanceState=running
+
+awk command --
+awk -F "/" '{print $1F}'
+awk -F "/" '{print $NF}'
+
+echo url |awk -F "/" '{print $1F}'
+https:
+
+
+how to get list of users in linux server?
+list of user we can get by using 
+awk -F ":" '{print $1F}' passwd
+
+awk -F ":" '{print $1F,$3F}' passwd --we get user and 3coloumn present word
+
+how to get lines in btw the 5-10?
+cat filename | head -n 10 |tail -n 5
+
+EDITOR
+==========
+vim
+:/<word-to-find>  --->search from top
+:?<word-to-find>  --->search from bottom
+:noh  --->dont highlight anything
+:%d   --->delete everything
+:1d  -->delete first line
+:s/which-word/what-word-you-want      --->replace a word where your cursore is and only first occurance
+:s/which-word/what-word-you-want/g   --->all occurance in that lines
+:3s/which-word/what-word-you-want/g  --->all occurance in 3rd lines
+:%s/which-word/what-word-you-want/g  -->all occurance in file
+
+Esc mode 
+============
+u --> undo a file 
+shift+g -->crusror goes to down
+gg --> crusror goes to down
+yy --> copy line
+p --> paste
+10p --> 10 times paste
+dd --> delete the lines
+
+
+premissions
+===============
+read write execute
+-rw-r--r--
+rw- --> who is the owner of the file
+r-- --> which group he belongs to
+r-- -->others
+
+r -->4
+w -->2
+x -->1
+
+who can change the permissions? ->Either owner or admin can change permissions
+when you dont assign a user to any group, his group is also same as his username
+
+chmod 777 -> all access to evryone
+750 ---> all access to owner, rx for group, 0 for others
+                              (4+1)
+o+w --> give write access to others
+o+r --> give read access to others
+o+x --> give execute access to others
+chmod o-rwx filename --> to remove all access to others
+chmod ugo+rwx filename --> to give all access to all groups
+chmod 777 filename --> all access to everyone
+
+
+########################################## SESSION--4 ###########################################################################
+To create user command --> useradd <user name> -ex: useradd ramesh
+id --> gives all info about current user -> id ramesh -> displays ramesh information
+when you create user by defalut a group will created with same name
+/etc/passwd -->users info
+/etc/group --> group info
+passwd ramesh ->to setup the password for ramesh
+
+create devops group and add ramesh to devops group
+
+groupadd devops
+every user have atleast one primary group and multiple secondary groups
+
+usermod -g devops ramesh --> adding ramesh to devops group
+
+ramesh primary --> devops
+ramesh secondary --> testing
+
+usermod -aG testing ramesh --> adding ramesh to testing group as secondary
+
+gpasswd -d ramesh testing --> delete ramesh from testing group
+
+created his user
+created group
+added him to group
+you can remove from group
+
+if employee leave the organisation
+=======================================
+1. remove him from the groups and assign to same defalut group which created at the time of user creation
+2. then delete the user
+
+a user must have atleast one primary and one secondary
+
+usermod -g ramesh ramesh
+
+userdel ramesh  --> ramesh user and ramesh group both will be deleted
+groupdel ramesh
+
+
+how to login into server suresh with user and password?
+===========================================
+useradd suresh
+passwd suresh
+
+by defalut, linux OS will not allow password authentication, it will only allow 
+key based authentication.
+In a company there is private servers we have to go either with key or username & password
+
+to login through user & password we have to configure in sshd_config
+vim/etc/ssh/sshd_config
+?passwordAuthentication no -->chaged to passwordAuthentication yes
+after every configurtion changs we have to restart sshd
+restart server --> systemctl restart sshd 
+
+to login through user without password we have to configure public key in .ssh/authorized_keys
+home/suresh
+ls -lart
+cd .ssh/ -->authorized_keys --> add public key
+Linux admins will ask for suresh public key ->suresh will generates private and public key and publickey will send to linux admin
+
+cd /home/suresh
+ls -lart ->for new users if no .ssh folder then have to create
+mkdir .ssh
+cd .ssh
+touch authorized_keys  -->add suresh pulbic key
+
+command to generates key is --> ssh-keygen -f suresh
+cat suresh.pub ---> this publickey suresh will send to linuxadmin via email.
+
+chown -R suresh:suresh .ssh  --> -R will changes ownerships of both directory and inside files owner and groups
+
+?????chmod ...  .ssh ??????????
+
+chmod 700 
+chmod 400
+
+vim/etc/ssh/sshd_config
+?passwordAuthentication yes -->chaged to passwordAuthentication no
+?key ->pulbickeyAuthenticcation yes
+after every configurtion changs we have to restart sshd
+restart server --> systemctl restart sshd 
+
+chmod -R 700 .ssh/
+directory 700
+file 600
+
+
+######################################################################## SESSION--5 ########################################################
+
+package management
+---------------------
+A software have lot of dependencies on other softwares
+
+rmp ->redhat package manager
+
+yum(old)/dnf(new)
+
+/etc/yum.repos.d/ --> links are available to install package in linux
+dnf install git -->install command
+dnf remove git -y -->command to remove 
+dnf list install -->command to list installed packages
+dnf list install | wc -l
+dnf list available --> command to list available packages
+dnf list available | wc -l
+
+How to check cpu info, memory info, OS
+cat /proc/cpuinfo  -->cpu information
+cat /proc/meminfo  -->memory information
+cat /etc/os-release  --OS information
+
+Service management
+---------------------------
+service -->start, stop, restart, status check, enable,disable
+
+systemctl status sshd 
+
+HTTP -->80
+Nginx --> install this package
+start the service
+
+dnf install nginx -y  -->install the nginx service
+systemctl start nginx  -->to start the nginx service
+systemctl status nginx --->check running or not
+systemctl stop nginx  -->to stop the nginx service
+systemctl restart nginx  -->to restart the nginx service
+
+systemctl enable nginx
+enable --> by defalut start the service will start automaticall\
+
+process management
+-----------------------------
+a sequence of steps to be executed to complete a task
+ child   parent
+ 005 --> 004
+ 004 --> 003
+ 003 --> 002
+ 002 --> 001
+ 001 --> Root Process
+ 
+ nginx --> PID should be there
+ ps -ef | grep nginx
+ foreground --> blocks the screen, runs in foreground
+ sleep 10
+ background --> run in background, you can do other works
+sleep 100 & -->it will 100seconds
+
+top --command used to check the how process consuming memory
+
+kill --> request
+kill -9 -->order
+
+Network management
+---------------------------------
+ports check
+
+netstat  -->this command shows the network statistics
+netstat -lt  --> it will show tcp connections i.e.,protocol of internet connections
+netstat -ltp --> it wll shows the internet connections along with processID/name
+netstat -ltpn --> it will shows the portnumber in place of protocol of internet connections
+
+##################################################################### SESSION--6 ####################################################################
+
+Expense project
+---------------
+3-tier archeture
+
+aws ->create db servers ->launch instance ->search devops-practice ->Community AMIs ->select redhat 9 RHEL 9->t3.micro->no keypair (we will use only username and password to login servers)
+ec2-user  -username
+DeOps321  -password
+->security groups->allow-all -> allow every port every ip 
+create firewall in security Group
+------------------------------------
+inbound rules-> All traffic(it is in-secure but starting stage so)-> anywhere ->0.0.0/0-->create security group
+
+from gitbash connect to ec2-user@ip and passwd DevOps321
+goto sudo user
+install DB --> MYSQL
+dnf install mysql-server -y 
+to start mysql
+
+systemctl start mysqld
+check status
+systemctl status mysqld
+netstat -lntp -->to check mysql port is opened or not --mysqlport is 3306
+ps -ef | grep mysql  --PID  -to check process
+enable mysql
+systemctl enable mysqld
+After install by defalut username is root and password have to set.
+mysql_secure_installation --set-root-pass ExpenseApp@1
+run in DB server
+
+
+server software is mysql-server and it is running, to check data you should connect to server through client.
+client package is just mysql
+dnf install mysql -y  -->to install mysql packages
+
+mysql -h <IP> -u root -p <password>  --> client package is outside the server
+
+mysql -u root -p <password>   --> client package is inside the server
+mysql -u root -p ExpenseApp@1
+mysql  -->client package is inside the server just run mysql
+connected to the server --->displays- mysql>
+mysql> show databases: ->command used to displays all databases
+mysql> use <schema_name> ->show tables:
+mysql> show tables: ->select * from timezone; 
+
+
+#########################################\SESSION--7#################################
+download and installation putty and supper putty and configurtion.
+
+dependencies --->nginx,git,.etc.,
+libraries --? means whenever if you want you can consume, no need to buy.
+it is common for everyone. Many people can use it.
+
+NodeJs
+
+------
+package.json --> where you mention your poject metadata.
+name,description,version, dependencies adn their versions.
+
+build tool =npm --> it will search package.json in your folder and 
+it will get the dependencies.libraries from internet.
+
+source files --> *.js
+
+Java
+------
+build file = pom.xml -->Name, project description,dependencies adn their versions
+
+build tool = maven --> it will search pom.xml in your folder and it will
+get the dependencies/libraries from internet
+
+source files --> *.java
+Python
+------
+build file == requirments.txt --> name, project,description,dependencies and their versions
+
+build tool = maven --> it will search requirments.txt in your folder and it will
+get the dependencies/libraries from internet
+source files --> *.py
+
+develpors will tell us which version to use.
+then we will go to sudo user and 
+dnf module list nodejs  --->it will list all nodejs versions and you enable according to req.
+ version =stream -20
+ 
+to disable version -> dnf module disable nodejs:18 -y
+
+to enable version -> dnf module enable nodejs:20 -y
+
+configure the application user:
+-------------------------------
+useradd expense  --system user/service user
+
+/app --> used this folder to place the application
+mkdir /app
+-o ->by using option we use curl as wget.
+
+curl -o /tmp/baackend.zip https://............zip  ->downloading the file and place in this location(cd /tmp ).
+
+/tmp --> temparory file will store here those are not much important.
+
+cd /app 
+unzip /tmp/backend.zip
+
+nodejs
+--------
+build file --> package.json
+build tool --> npm --> node package manager
+files --> *.js
+npm install  ->it will install all, if anything required install from internet
+node_modules --> after installation will get this folder which is having all dependencies of nodejs
+ this is we complied and build the develpors writtens code
+
+cat package.json -->gives metadata like vesrions which you need.
+
+dnf install nginx -y -->once installed nginx from internet we have to restart
+systemctl start nginx
+
+sameway to run manually backend application we have run below command.
+/bin/node /app/index.js (if run one file index.js it will run all the required files).
+
+By using systemctl command aslo we can run backend app by using below
+systemctl file service --Google it.
+
+[Unit]
+Description=ATD daemon
+[Service]
+Type=forking
+ExecStart=/usr/bin/atd
+[Install]
+WantedBy=multi-user.target
+
+/etc/systemd/system --->in this directory we have to configure to run by systemctl(Here you can place all your service files)
+extension should be --> .service
+
+vim /etc/systemd/system/backend.service
+[Unit]
+Description=Backend service
+[Service]
+User=expense
+Environment=DB_HOST="<MYSQL-SERVER-IPADDRESS>"
+ExecStart=/bin/node /app/index.js
+SyslogIdentifier=backend
+[Install]
+WantedBy=multi-user.target
+
+For every system there are two ip's -> public and private.
+example: router has public ip and laptop,mobile,tv.,etc have private ip.
+by using laptop to connect tv we can use private ip -->it is inside connections
+by laptop if you are connecting to FB you have to use public ip ->it is outside connections
+
+same way here app server conecting to db server by using private because it is inside connection(we can use public also but there we have to phase some security problems)
+
+public ip may change when restart the system, but private ip will never change.
+
+ 
+vim /etc/systemd/system/backend.service
+[Unit]
+Description=Backend service
+[Service]
+User=expense
+Environment=DB_HOST="172.31.40.207"
+ExecStart=/bin/node /app/index.js
+SyslogIdentifier=backend
+[Install]
+WantedBy=multi-user.target
+
+ save and execute below commands
+ 
+systemctl daemon-reload  -->it will reload the systemctl
+systemctl start backend
+systemctl enable backend
+systemctl status backend 
+
+failed to connect --> so check ports,nodes,logs
+
+netstat -lntp
+ps -ef | grep node
+/var/log/messages -->linux logs location -->failed due to schema(expense) is not present in the DB
+less /var/log/messages (shift+g ->down,gg ->up)
+
+show databases; ->in linux for sudo user it will shows all schemas present in DB
+we can create schema and tables by using app/backend server or DB server.
+
+==========================================================================================================
+create a schema/database for expense project
+create a table
+
+CREATE DATABASE IF NOT EXISTS transactions;
+USE transactions;
+
+CREATE TABLE IF NOT EXISTS transactions (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   amount INT,
+   description VARCHAR(255)
+);
+
+CREATE USER IF NOT EXISTS 'expense'@'%' IDENTIFIED BY 'ExpenseApp@1';
+GRANT ALL ON transactions.* TO 'expense'@'%';
+FLUSH PRIVILEGES;
+=========================================================================================================
+dnf install mysql -y  --> Installed mysql clinet in server
+mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pExpenseApp@1 < /app/schema/backend.sql
+mysql -h 172.31.40.207 -uroot -pExpenseApp@1 < /app/schema/backend.sql
+show databases;
+use transactions;
+show tables;
+
+
+systemctl status backend  -->Started backend service.
+ps -ef | grep node
+backend application running or not have to check
+netstat -lntp  --> it will shows port numbers 
+backend application mostly opens -->8080 portnumber
+
+telnet used to check whether backend server is connected to DB server or not
+we have to check from backend/app server bcz app server is connecting to db server
+ telnet 172.31.40.207 3306
+ 
+To check db is working or not from backend/app server
+ping <DB_PRIVATE_IPADDRESS>
+ping 172.31.40.207
+
+create frontend server and install nginx and configure project req.
+ec2->instance->launch instance-> name(frontend-server)->App and OS img AMI(devops-practice)->Selected AMI->community AMIs->RHEL-9-DevOps-Practice->instance type->t3.micro->
+keypair(login)->procees without a keypair->check box -select existing security grp->allow-all->launch instance
+
+take pulbicip of frontend-server and login into supperputty(takes2mins)
+frontend application are static so we install in nginx
+sudo su-
+dnf install nginx -y
+systemctl start nginx
+systemctl enable nginx
+
+nginx folder structure:
+------------------------
+/etc/nginx --->nginx configurtion will be here
+/usr/share/nginx/html --> here we can see defalut content or if required we can replace websites by removing dedault one
+/var/log/nginx  --->here nginx places the logs
+
+/usr/share/nginx/html/index.html --> load automaticall when you hit ip
+Remove the default content that web server is serving
+rm -rf /usr/share/nginx/html/*
+
+download the frontend content in temp directory
+curl -o /tmp/frontend.zip https://expense-builds.s3.us-east-1.amazon.com/expense-frontend-v2.zip
+
+in html folder unzip the frontend.zip file.
+unzip /tmp/frontend.zip
+
+To connect webserver/frontend server to app server/backend server we have to confiure in
+vim /etc/nginx/default.d/expense.conf
+proxy_http_version 1.1;
+
+location /api/ { proxy_pass http://172.31.46.138:8080/; }
+
+location /health {
+  stub_status on;
+  access_log off;
+}
+:wq!
+
+search in google with frontend ip will get expense app web server
+once we given data store in DB by tranferring through webserver->appserver->DBserver

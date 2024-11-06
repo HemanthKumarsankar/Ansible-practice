@@ -1,0 +1,226 @@
+1.check git is installed or not go to command prompt and give-> git --version
+
+2.download and install
+3.create new folder in desktop and goto command promt/gitbash give loc of new folder (cd C/Users/lenovo/devops)and execute command-> git inti ->.git folder will gnerate
+
+
+
+After signup and create a a/c on github.
+1. add your guthub email and username to git
+git config --global user.email "hemanthgit@gmail.com"
+git config --global user.name "Hemanth Kumar sankar"
+
+2.Add file/folders to git -tracking
+ In local --have to create one folder and goto this location in git
+ cd C/Users/lenovo/devops
+ 
+3. Commands
+on terminal goto location of the folder and run below command for creating .git folder in hidden and give ls -lart
+
+git init 
+
+touch test.txt
+
+git status    --> test.txt in not tracked so we have to add and commit the file/folders
+
+git add test.txt 
+
+git status   -->file is added and changes to be committed.
+
+git commit -m "here text msg we can give"
+git commit -m "added test.txt"
+
+git status   -->nothing to commit,workin free clean
+
+3.modifing existing file(test.txt) and creating new file 
+
+git add .  ---> . means it will add the all changes in git and ready to be committed.
+
+git commit -m "added index.html | modified test.txt"
+
+git status  -> nothing to commmit.
+
+
+*) creating remote repository in github and pushing/cloning into remote repository
+
+New repo-> repository name->public/private->create repository
+
+1.git remote add origin  "loc of remote repo"
+
+git remote add origin https://github.com/Hemanthkumarsankar/Repo1.git
+
+2.git push -u origin master  --> this command will push the changes into origin of master(which is main branch)
+
+3.git log  --> it will what ever action done on git.
+4. git --help -->this will shows all available options in github.
+
+Creating branch 
+================
+
+Step 1 : Create branch
+   git branch “branch name” 
+   
+   git branch MyNewBranch
+
+Step 2 : Checkout branch means switching to branch
+   git checkout “branch name”
+   git checkout MyNewBranch
+   touch test1.txt
+   git status
+   git add .
+   git -m "added test1.txt"
+   git push -u origin MyNewBranch
+   
+   git checkout master
+   
+
+if we do changes in newbranch then old files of master branch along with new changes will appears in new branch and changes does not reflect in master branch.
+
+
+Step 3 : Merge new branch in master branch
+   git merge “branch name”
+   
+   git merge MyNewBranch
+   git push -u origin master
+   
+after merge changes will reflects in master branch as well.
+
+Step 4 : Delete branch
+   git branch -d “branch name”    —> delete from local
+   git branch -d MyNewBranch
+   
+   git push origin —delete “branch name”   — delete from remote
+   
+   git push origin —delete MyNewBranch
+   
+ ------------------------------------------------------------------------------
+How to trigger notification email from github 
+whenever there is any change/commit in the project
+
+ email services are replaced and new options introduced. The new option is Github - Repository - Settings - Notification - add your email-ID
+Today we will learn
+
+Step 1 : Github - Repository - Settings - integration & services - add services- select email - webhooks -in address give email id and secret-checkbox send auther -add service
+
+Step 2 : Test and validate by making some change in the project
+
+goto gitbash/cmd prompt
+cd C/Users/lenovo/devops
+git status
+touch index.html
+git status
+git add .
+git commit -m "added index.html"
+git push -u origin master
+
+-----------------------------------------------------------------------------------------------
+Git TAGS - What | Why | When | How
+Today We will learn:
+-------------------------------
+1. What are tags / releases
+2. Why should i create TAGs
+3. When to create TAGs
+4. How to create TAGs in git
+     create | show | publish | delete
+
+Step 1:
+Checkout the branch where you want to create the tag
+git checkout "branch name"
+example : git checkout master
+________________________________________________________
+
+Step 2:
+Create tag with some name
+git tag "tag name"
+example : git tag v1.0
+git tag -a v1.0 -m "ver 1 of .."  (to create annotated tags) 
+________________________________________________________
+
+Step 3:
+Display or Show tags
+git tag
+git show v1.0
+git tag -l “v1.*”
+________________________________________________________
+
+Step 4:
+Push tags to remote
+git push origin v1.0
+git push origin --tags
+git push --tags 
+(to push all tags at once)
+________________________________________________________
+
+Step 5:
+Delete tags (if required only)
+to delete tags from local :
+git tag -d v1.0
+git tag --delete v1.0
+
+to delete tags from remote :
+git push origin -d v1.0
+git push origin --delete v1.0
+git push origin :v1.0
+
+to delete multiple tags at once:
+git tag -d v1.0 v1.1 (local)
+git push origin -d v1.0 v1.1 (remote)
+
+________________________________________________________
+
+
+Checking out TAGS
+
+We cannot checkout tags in git
+We can create a branch from a tag and checkout the branch
+git checkout -b "branch name" "tag name"
+example : git checkout -b ReleaseVer1 v1.0
+________________________________________________________
+
+Creating TAGS from past commits
+
+git tag "tag name" "reference of commit"
+example : git tag  v1.2 5fcdb0 3
+===================================================================================================
+In Git there are 2 ways to integrate changes from one branch to another
+git merge
+
+             ------------- O------O
+            /
+----O------O------O
+
+
+git rebase --->----->
+
+git merge
+Is a non-destructive operation
+Existing branches are not changed in any way
+Creates a new merge commit in the feature branch
+
+git rebase
+Moves the entire feature branch to begin on the tip of the master branch
+Re-writes the project history
+We get much cleaner and linear project history
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
