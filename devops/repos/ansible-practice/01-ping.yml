@@ -1,5 +1,5 @@
 - name: ping the server
-  hosts: anisble-node-private-IP #which host to connect 
+  hosts: anisble_node_private_IP #which host to connect 
   tasks: #list of tasks/modules/collections
   - name: ping the server
     ansible.builtin.ping: 
