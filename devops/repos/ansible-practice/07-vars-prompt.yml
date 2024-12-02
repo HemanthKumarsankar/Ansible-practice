@@ -1,11 +1,11 @@
 - name: print the variables from prompt
   hosts: anisble_node_private_IP
   vars_prompt:
-  - name: COURSE
+  - name: Course
     prompt: enter the course details-
-  - name: DURATION
+  - name: Duration
     prompt: enter the duration details-
-  - name : TRAINER
+  - name : Trainer
     prompt: enter the trainer details-
   tasks: 
   - name: variables giving from the prompt
