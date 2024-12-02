@@ -1,5 +1,6 @@
 - name: install nginx and run
   hosts: anisble_node_private_IP
+  become: y
   tasks: 
   - name: install nginx
     ansible.builtin.package: #hetrogenous module that can works for all distributins
