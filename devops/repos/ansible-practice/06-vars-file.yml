@@ -1,6 +1,6 @@
 - name: print the var from file
   hosts: anisble_node_private_IP
-  vars:
+  vars_file:
   - vars.yml
   tasks:
   - name: print the variables form vars file
