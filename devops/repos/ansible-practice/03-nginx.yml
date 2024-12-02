@@ -10,3 +10,5 @@
   - name: run nginx
     ansible.builtin.service: #miodule to run service
       name: nginx   #mandatory for syntax
+      state: started
+      enabled: yes
