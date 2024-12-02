@@ -1,6 +1,6 @@
 - name: print the variables from prompt
   hosts: anisble_node_private_IP
-  variable_prompt:
+  variables_prompt:
   - name: COURSE
     prompt: enter the course details-
   - name: DURATION
