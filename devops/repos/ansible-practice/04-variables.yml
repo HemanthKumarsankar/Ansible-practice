@@ -1,0 +1,6 @@
+- name: print the varibles
+  hosts: anisble_node_private_IP
+  tasks:
+  - name: print the information
+    ansible.builtin.debug:
+      msg: "Hi i am learning DevOps with AWS, duration is 120 hrs, trainer by sivakummar"
