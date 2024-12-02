@@ -1,0 +1,13 @@
+- name: print the variables from prompt
+  hosts: anisble_node_private_IP
+  variable_prompt:
+  - name: COURSE
+    prompt: enter the course details-
+  - name: DURATION
+    prompt: enter the duration details-
+  - name : TRAINER
+    prompt: enter the trainer details-
+  tasks: 
+  - name: variables giving from the prompt
+    ansible.builtin.debug:
+     msg: "Hi i am learning {{Course}}, duration is {{Duration}}, trainer by {{Trainer}}""
