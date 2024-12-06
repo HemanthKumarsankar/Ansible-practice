@@ -1,10 +1,10 @@
 - name: check the given details of conditions
   hosts: local
   connection: local
-  vars_prompt:  # if we given any integer with prompt then in condition we have to mention datatype with piple|
-  - name: my_number            #number is reserve keyword so we use my_number
-    prompt: enter the number 
-    private: false #not confidential
+  # vars_prompt:  # if we given any integer with prompt then in condition we have to mention datatype with piple|
+  # - name: my_number            #number is reserve keyword so we use my_number
+  #   prompt: enter the number 
+  #   private: false #not confidential
   vars:
    my_number: 120
 
