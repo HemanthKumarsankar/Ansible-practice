@@ -19,5 +19,5 @@
      - S3
   tasks:
   - name: print the information
-    ansible.builtin.degub:
+    ansible.builtin.debug:
       msg: "Hi i am learning {{COURSE}}, duration is {{DURATION}}, topics are: {{TOPICS}} and tools: {{TOOLS}}"
