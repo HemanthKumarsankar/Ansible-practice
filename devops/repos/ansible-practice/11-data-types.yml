@@ -10,7 +10,7 @@
     - terraform
     - docker
     - k8
-    live: true #boolean
+    live: false #boolean
     tools: #maps/dictionary
      ci: jenkins #string
      cm: ansible
