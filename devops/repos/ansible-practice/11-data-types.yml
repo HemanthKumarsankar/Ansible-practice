@@ -1,0 +1,23 @@
+- name: Details of DevOps Course 
+  hosts: local
+  conections: local
+  vars:
+    COURSE: DevOps with AWS #string
+    DURATION: 120 #number
+    topics: #list
+    - linux
+    - ansible
+    - terraform
+    - docker
+    - k8
+    tools: #maps/dictionary
+     ci: jenkins #string
+     cm: ansible
+     cloud: aws
+     aws:
+     - IAM
+     - S3
+  tasks:
+  - name: print the information
+    ansible.builtin.degub:
+      msg: "Hi i am learning {{COURSE}}, duration is {{DURATION}}, topics are: {{TOPICS}} and tools: {{TOOLS}}"
