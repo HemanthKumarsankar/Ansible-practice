@@ -1,0 +1,13 @@
+- name: using loop  install pkgs
+  hosts: local
+  connection: local
+  tasks:
+  - name: installing all pkgs by using loop
+    ansible.builtin.package:
+     name: "{{ item }}"
+     state: present
+    loop:
+    - nginx
+    - mysql
+    - httpd
+    - ansible
