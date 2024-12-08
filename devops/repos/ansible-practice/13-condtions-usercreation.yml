@@ -1,7 +1,7 @@
 - name : check user exist or not, if not create it
-  hosts:
+  hosts: anisble_node_private_IP
   tasks:
   - name: check user exists or not
     ansible.builtin.command: id expense
     register: USER
-    
+
