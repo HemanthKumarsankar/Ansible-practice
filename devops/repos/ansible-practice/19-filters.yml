@@ -47,7 +47,7 @@
       - { "key": "duration", "value": "120hrs" }
       - { "key": "trianer", "value": "siva" }
     ansible.builtin.debug:
-     msg: course | dct2items     
+     msg: "{{course | dct2items}}"     
             
       
 
