@@ -1,14 +1,14 @@
-- name: using loop  install pkgs
+- name: adding or removing pkgs
   hosts: local
   connection: local
   become: yes
   tasks:
-  - name: installing all pkgs by using loop
+  - name: using loop add/removing the pkgs
     ansible.builtin.package:
-     name: "{{ item }}"
-     state: present
+     name: "{{item.name}}"
+     state: "{{item.state}}"
     loop:
-    - nginx
-    - mysql
-    - httpd
-    - ansible
+    - {name: 'nginx' , state: 'present'}
+    - {name: 'mysql' , state: 'absent'}
+    - {name: 'httpd' , state: 'absent'}
+    - {name: 'ansible' , state: 'present'}
