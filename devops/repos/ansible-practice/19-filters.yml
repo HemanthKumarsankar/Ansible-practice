@@ -37,7 +37,7 @@
       duration: 120hrs
       trianer: siva
     ansible.builtin.debug:
-     msg: "{{vars | map2dict}}"
+     msg: "{{vars | list2dict}}"
 
 
 
