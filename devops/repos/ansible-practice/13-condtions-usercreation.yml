@@ -6,8 +6,8 @@
     ansible.builtin.command: id expense
     register: USER  # here USER is the variable that store the above command o/p
     #we know here error will encountered so google error handiling in anisble
-    ignore_error: true
-    
+    ignore_errors: true
+
 
 
 
