@@ -1,0 +1,20 @@
+- name: install ngnix
+  hosts: anisble_node_private_IP
+  become: yes
+  tasks:
+  - name: gathering the facts from server
+    ansible.builtin.debug: 
+     msg: "{{ansible_facts}}"
+    
+  - name: install ngnix if redhat
+    ansible.builtin.dnf:
+     name: ngnix
+     state: present
+    when: ansible_os_family == "RedHat"
+
+  - name: install ngnix if Debian
+    ansible.builtin.apt:
+      name: ngnix
+      state: present
+    when: ansible_os_family == "Debian"
+    

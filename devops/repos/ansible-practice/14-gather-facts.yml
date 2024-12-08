@@ -4,4 +4,4 @@
   - name: gathering the facts from server
     ansible.builtin.debug: 
      msg: "{{ansible_facts}}"
-    when:
+    
