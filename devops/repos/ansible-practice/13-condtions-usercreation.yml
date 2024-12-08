@@ -9,9 +9,9 @@
     ignore_errors: true
   
   - name: create user
-    ansible.builtin.command: add user
+    ansible.builtin.command: add expense
     register: USER
-    
+
 
 
 
