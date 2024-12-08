@@ -33,9 +33,10 @@
 
   - name: print the o/p form map to list
     vars:
-      course: Devops with aws
-      duration: 120hrs
-      trianer: siva
+      course:
+        name: Devops with aws
+        duration: 120hrs
+        trianer: siva
     ansible.builtin.debug:
      msg: "{{vars | dict2items}}"
 
