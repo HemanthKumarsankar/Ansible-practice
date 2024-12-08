@@ -21,7 +21,7 @@
   
   - name: print unique values
     vars:
-      number: "[ 1,2,3,4,5,6,2,5,4,1 ]"
+      number: [ 1,2,3,4,5,6,2,5,4,1 ]
     ansible.builtin.debug:
      msg: "{{number | unique }}"
 
