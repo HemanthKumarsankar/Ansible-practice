@@ -8,9 +8,9 @@
     #we know here error will encountered so google error handiling in anisble
     ignore_errors: true
   
-  - name: create user
-    ansible.builtin.command: add expense
-    register: USER
+  - name: print the user info
+    ansible.builtin.debug:
+     msg: "user info: {{USER}}"
 
 
 
