@@ -38,7 +38,7 @@
         duration: 120hrs
         trianer: siva
     ansible.builtin.debug:
-     msg: "{{vars | dict2items}}"
+     msg: "{{course | dict2items}}"
 
 
 
