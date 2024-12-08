@@ -31,5 +31,13 @@
     ansible.builtin.debug:
      msg: "{{number | max , number | min}}"
 
+  - name: print the o/p form map to list
+    vars:
+      course: Devops with aws
+      duration: 120hrs
+      trianer: siva
+    ansible.builtin.debug:
+     msg: "{{vars | map2dct}}"
+
 
 
