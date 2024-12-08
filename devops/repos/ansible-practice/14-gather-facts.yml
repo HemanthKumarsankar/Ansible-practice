@@ -2,6 +2,6 @@
   hosts: anisble_node_private_IP
   tasks:
   - name: gathering the facts from server
-    ansible.builtin.command: 
+    ansible.builtin.debug: 
      msg: "{{ansible_facts}}"
     when:
