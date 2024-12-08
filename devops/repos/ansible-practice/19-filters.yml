@@ -7,7 +7,11 @@
   - name: varibale not defined
     ansible.builtin.debug:
      msg: "{{course | default ('ansible')}}"   #here course variable has not defind so in ansible by using default filter we can achieve varibales
-
+  - name: print varibale in uppercase
+    vars:
+      greeting: good morning
+    ansible.builtin.debug:
+      msg: "{{greeting | upper }}"
 
 
 
