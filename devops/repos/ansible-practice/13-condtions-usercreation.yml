@@ -4,5 +4,33 @@
   tasks:
   - name: check user exists or not
     ansible.builtin.command: id expense
-    register: USER
+    register: USER  # here USER is the variable that store the above command o/p
+    #we know here error will encountered so google error handiling in anisble
+    ignore_error: true
+    
+
+
+
+
+
+
+
+    
+# TASK [check user exists or not] **************************************************************
+# fatal: [172.31.32.219]: FAILED! =>
+#  {
+#     "changed": true, 
+#     "cmd": ["id", "expense"], 
+#     "delta": "0:00:00.007472", 
+#     "end": "2024-12-08 06:00:37.415393", 
+#     "msg": "non-zero return code", 
+#     "rc": 1, 
+#     "start": "2024-12-08 06:00:37.407921", 
+#     "stderr": "id: ‘expense’: no such user", 
+#     "stderr_lines": ["id: ‘expense’: no such user"], 
+#     "stdout": "", 
+#     "stdout_lines": []
+#  }
+
+
 
