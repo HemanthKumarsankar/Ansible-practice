@@ -1,6 +1,6 @@
 - name: install ngnix
-  hosts: anisble_node_private_IP
   become: yes
+  hosts: anisble_node_private_IP
   tasks:
   - name: gathering the facts from server
     ansible.builtin.debug: 
