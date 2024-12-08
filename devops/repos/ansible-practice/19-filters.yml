@@ -13,5 +13,11 @@
     ansible.builtin.debug:
       msg: "{{greeting | upper }}"
 
+  - name: print varibale in lowercase
+    vars:
+      Wishes: HappY BIrthday
+    ansible.builtin.debug:
+     msg: "{{ Wishes | lower }}"
+
 
 
