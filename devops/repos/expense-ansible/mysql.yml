@@ -1,11 +1,12 @@
 - name: install mysql
   hosts: mysql
+  become: yes
   vars:
    login_root_password: ExpenseApp@1
    login_host: mysql.hemanth.online
 
   tasks:
-  - name: install my sql
+  - name: install mysql
     ansible.builtin.package:
      name: mysql
      state: present
