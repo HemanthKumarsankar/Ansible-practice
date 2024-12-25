@@ -9,7 +9,7 @@
     - frontend
     - backend
     - mysql
-  zone: "HemanthKumarsankar.online"
+   zone: "HemanthKumarsankar.online"
   tasks:
   - name: creating ec2 instances
     amazon.aws.ec2_instance:
