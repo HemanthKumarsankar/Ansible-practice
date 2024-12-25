@@ -6,9 +6,9 @@
    sg_id: "sg-04de82942b1f8408d"
    image_id: "ami-09c813fb71547fc4f" 
    instance:
-    -frontend
-    -backend
-    -mysql
+    - frontend
+    - backend
+    - mysql
 - name: creating ec2 instances
   amazon.aws.ec2_instance:
     name: item
