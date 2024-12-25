@@ -2,7 +2,7 @@
   hosts: mysql
   vars:
    login_root_password: ExpenseApp@1
-   login_host: mysql.Hemanth.online
+   login_host: mysql.hemanth.online
 
   tasks:
   - name: install my sql
