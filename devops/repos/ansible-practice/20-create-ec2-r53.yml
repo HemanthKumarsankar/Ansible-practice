@@ -5,7 +5,7 @@
    subnet_id: "subnet-09ca74174dd671a63"
    sg_id: "sg-04de82942b1f8408d"
    image_id: "ami-09c813fb71547fc4f" 
-  instance:
+   instance:
     -frontend
     -backend
     -mysql
