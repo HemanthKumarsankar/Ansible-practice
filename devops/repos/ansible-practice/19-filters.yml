@@ -47,8 +47,17 @@
       - { "key": "duration", "value": "120hrs" }
       - { "key": "trianer", "value": "siva" }
     ansible.builtin.debug:
-     msg: "{{course | items2dict}}"     
-            
+     msg: "{{course | items2dict}}"  
+
+  - name: to check valid ip address or not
+    vars:
+      myip: "123.234.12.9"  #if ip is valid result is true else false   
+    ansible.builtin.debug:
+      msg: "{{myip | ansible.utils.ipv4}}"
+       # in result it shows some packages needs to be install
+       # 1.anisble  --version
+       # 2.pip3.9 install netaddr
+
       
 
 
